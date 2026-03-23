@@ -1,0 +1,40 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "env": {
+    "NEWS_API_KEY": "@news-api-key",
+    "NEXT_PUBLIC_NEWS_API_KEY": "@news-api-key"
+  },
+  "build": {
+    "env": {
+      "NEWS_API_KEY": "@news-api-key",
+      "NEXT_PUBLIC_NEWS_API_KEY": "@news-api-key"
+    }
+  },
+  "functions": {
+    "app/api/news/route.ts": {
+      "maxDuration": 30
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { NewsService, Article } from '@/lib/news';
+import { NewsProxyService, Article } from '@/lib/news-proxy';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import BreakingNewsTicker from '@/components/BreakingNewsTicker';
 import Navigation from '@/components/Navigation';
@@ -36,11 +36,11 @@ export default function Home() {
     try {
       let response;
       if (query) {
-        response = await NewsService.getEverything(query, '', 30);
+        response = await NewsProxyService.getEverything(query, '', 30);
       } else if (category && category !== 'general') {
-        response = await NewsService.getByCategory(category);
+        response = await NewsProxyService.getByCategory(category);
       } else {
-        response = await NewsService.getTopHeadlines('us', 50);
+        response = await NewsProxyService.getTopHeadlights('us', 50);
       }
       
       setArticles(response.articles);

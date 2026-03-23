@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_KEY = '85c1330357534127950b9cd187110694';
+const API_KEY = process.env.NEXT_PUBLIC_NEWS_API_KEY || '85c1330357534127950b9cd187110694';
 const BASE_URL = 'https://newsapi.org/v2';
 
 export interface Article {
