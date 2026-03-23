@@ -1,25 +1,23 @@
 import axios from 'axios';
 
-const API_KEY = process.env.NEXT_PUBLIC_NEWS_API_KEY || '85c1330357534127950b9cd187110694';
-const BASE_URL = 'https://newsapi.org/v2';
+const API_KEY = process.env.NEXT_PUBLIC_GNEWS_API_KEY || 'f8900772867af22c9d6625a70da03c37';
+const BASE_URL = 'https://gnews.io/api/v4';
 
 export interface Article {
-  source: {
-    id: string | null;
-    name: string;
-  };
-  author: string | null;
   title: string;
-  description: string | null;
+  description: string;
+  content: string;
   url: string;
-  urlToImage: string | null;
+  image: string | null;
   publishedAt: string;
-  content: string | null;
+  source: {
+    name: string;
+    url: string;
+  };
 }
 
 export interface NewsResponse {
-  status: string;
-  totalResults: number;
+  totalArticles: number;
   articles: Article[];
 }
 
@@ -28,15 +26,17 @@ export class NewsService {
     try {
       const response = await axios.get(`${BASE_URL}/top-headlines`, {
         params: {
-          apiKey: API_KEY,
-          country,
-          pageSize,
+          apikey: API_KEY,
+          country: country.toLowerCase(),
+          max: pageSize,
+          lang: 'en',
         },
       });
       return response.data;
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error fetching top headlines:', error);
-      throw error;
+      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch top headlines';
+      throw new Error(errorMessage);
     }
   }
 
@@ -46,19 +46,26 @@ export class NewsService {
     pageSize: number = 20
   ): Promise<NewsResponse> {
     try {
-      const response = await axios.get(`${BASE_URL}/everything`, {
-        params: {
-          apiKey: API_KEY,
-          q: query,
-          category,
-          pageSize,
-          sortBy: 'publishedAt',
-        },
-      });
+      const params: Record<string, string | number> = {
+        apikey: API_KEY,
+        max: pageSize,
+        lang: 'en',
+      };
+
+      if (query) {
+        params.q = query;
+      }
+
+      if (category && category !== 'general') {
+        params.topic = category;
+      }
+
+      const response = await axios.get(`${BASE_URL}/search`, { params });
       return response.data;
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error fetching everything:', error);
-      throw error;
+      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch news';
+      throw new Error(errorMessage);
     }
   }
 
@@ -66,16 +73,18 @@ export class NewsService {
     try {
       const response = await axios.get(`${BASE_URL}/top-headlines`, {
         params: {
-          apiKey: API_KEY,
-          country,
-          category,
-          pageSize: 20,
+          apikey: API_KEY,
+          country: country.toLowerCase(),
+          topic: category === 'general' ? undefined : category,
+          max: 20,
+          lang: 'en',
         },
       });
       return response.data;
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error fetching by category:', error);
-      throw error;
+      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch news by category';
+      throw new Error(errorMessage);
     }
   }
 }

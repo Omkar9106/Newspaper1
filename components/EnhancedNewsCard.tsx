@@ -95,9 +95,9 @@ export default function EnhancedNewsCard({
       className={getCardClasses()}
     >
       <div className={`relative ${getImageHeight()} overflow-hidden`}>
-        {article.urlToImage ? (
+        {article.image ? (
           <Image
-            src={article.urlToImage}
+            src={article.image}
             alt={article.title}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -159,14 +159,12 @@ export default function EnhancedNewsCard({
           className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400"
         >
           <div className="flex items-center gap-3">
-            {article.author && (
-              <div className="flex items-center gap-1">
-                <User className="w-3 h-3" />
-                <span className="truncate max-w-20 md:max-w-none">
-                  {article.author.split(' ')[0]}
-                </span>
-              </div>
-            )}
+            <div className="flex items-center gap-1">
+              <User className="w-3 h-3" />
+              <span className="truncate max-w-20 md:max-w-none">
+                {article.source.name}
+              </span>
+            </div>
             
             <div className="flex items-center gap-1">
               <Clock className="w-3 h-3" />

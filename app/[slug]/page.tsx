@@ -124,16 +124,16 @@ export default function ArticlePage() {
                 {article.title}
               </h1>
 
-              {article.author && (
+              {article.source.name && (
                 <div className="flex items-center gap-2 text-gray-600">
                   <User className="w-4 h-4" />
-                  <span className="font-medium">{article.author}</span>
+                  <span className="font-medium">{article.source.name}</span>
                 </div>
               )}
             </motion.div>
 
             {/* Featured Image */}
-            {article.urlToImage && (
+            {article.image && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -141,7 +141,7 @@ export default function ArticlePage() {
                 className="relative h-96 md:h-[500px] rounded-2xl overflow-hidden shadow-2xl"
               >
                 <Image
-                  src={article.urlToImage}
+                  src={article.image}
                   alt={article.title}
                   fill
                   className="object-cover"
@@ -244,10 +244,10 @@ export default function ArticlePage() {
                   className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer border border-gray-200"
                   onClick={() => router.push(`/article/${index + 1}`)}
                 >
-                  {relatedArticle.urlToImage && (
+                  {relatedArticle.image && (
                     <div className="relative h-40">
                       <Image
-                        src={relatedArticle.urlToImage}
+                        src={relatedArticle.image}
                         alt={relatedArticle.title}
                         fill
                         className="object-cover"
