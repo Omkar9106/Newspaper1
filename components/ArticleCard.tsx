@@ -62,10 +62,10 @@ export default function ArticleCard({ article, index }: ArticleCardProps) {
       className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer group"
     >
       <div className="relative h-48 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
-        {article.urlToImage ? (
+        {article.image ? (
           <motion.div variants={imageVariants}>
             <Image
-              src={article.urlToImage}
+              src={article.image}
               alt={article.title}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -118,7 +118,7 @@ export default function ArticleCard({ article, index }: ArticleCardProps) {
           </motion.p>
         )}
 
-        {article.author && (
+        {article.source.name && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -126,7 +126,7 @@ export default function ArticleCard({ article, index }: ArticleCardProps) {
             className="flex items-center gap-2 text-sm text-gray-500 mb-4"
           >
             <User className="w-3 h-3" />
-            <span>{article.author}</span>
+            <span>{article.source.name}</span>
           </motion.div>
         )}
 
